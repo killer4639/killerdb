@@ -17,23 +17,29 @@ func assert(t *testing.T, condition bool) {
 	}
 }
 
+func assertCondition(condition bool) {
+	if !condition {
+		panic("assertion failed")
+	}
+}
+
 func newC(t *testing.T) *C {
 	pages := map[uint64]BNode{}
 	return &C{
 		tree: BTree{
-			Get: func(ptr uint64) BNode {
+			get: func(ptr uint64) BNode {
 				node, ok := pages[ptr]
 				assert(t, ok)
 				return node
 			},
-			New: func(node BNode) uint64 {
+			new: func(node BNode) uint64 {
 				assert(t, node.nbytes() <= BTREE_PAGE_SIZE)
 				key := uint64(uintptr(unsafe.Pointer(&node.data[0])))
 				assert(t, pages[key].data == nil)
 				pages[key] = node
 				return key
 			},
-			Del: func(ptr uint64) {
+			del: func(ptr uint64) {
 				_, ok := pages[ptr]
 				assert(t, ok)
 				delete(pages, ptr)

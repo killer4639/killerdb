@@ -16,9 +16,9 @@ const (
 type BTree struct {
 	root uint64
 
-	Get func(uint64) BNode
-	New func(BNode) uint64
-	Del func(uint64)
+	get func(uint64) BNode
+	new func(BNode) uint64
+	del func(uint64)
 }
 
 const HEADER_SIZE = 4
