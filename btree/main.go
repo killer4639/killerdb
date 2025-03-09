@@ -14,7 +14,7 @@ func createEmptyBTree() *BTree {
 	var counter uint64 = 1
 
 	return &BTree{
-		Get: func(ptr uint64) BNode {
+		get: func(ptr uint64) BNode {
 			node, ok := pages[ptr]
 			if !ok {
 				panic("invalid node pointer")
@@ -22,14 +22,14 @@ func createEmptyBTree() *BTree {
 			log.Printf("DEBUG: Getting node with ptr=%d\n", ptr)
 			return node
 		},
-		New: func(node BNode) uint64 {
+		new: func(node BNode) uint64 {
 			ptr := counter
 			counter++
 			pages[ptr] = node
 			log.Printf("DEBUG: Created new node with ptr=%d\n", ptr)
 			return ptr
 		},
-		Del: func(ptr uint64) {
+		del: func(ptr uint64) {
 			delete(pages, ptr)
 			log.Printf("DEBUG: Deleted node with ptr=%d\n", ptr)
 		},
